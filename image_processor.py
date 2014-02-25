@@ -6,11 +6,13 @@ from runner import Run
 from os import path, unlink
 
 def ProcessImage(filename, output_filebase, filterop, blendop, filter_id, outdim = 640, quality = 80):
+  #print filename
   if output_filebase[-1:] != '/':
     output_filebase += '/'
   basename = path.basename(filename)
-  while basename[-4:] == '.jpg' or basename[-4:] == '.png':
-    basename = basename[:-4]  
+  basename = basename.replace('.orig.jpg', '')
+  #while basename[-4:] == '.jpg' or basename[-4:] == '.png':
+    #basename = basename[:-4]  
     
   # Generate the FX layer as a lossless PNG
   fx_file = ''.join((output_filebase,
@@ -26,12 +28,14 @@ def ProcessImage(filename, output_filebase, filterop, blendop, filter_id, outdim
     return None
   
   # Combine the FX layer with the original image
-  out_file = ''.join((output_filebase,
-                      'img-',
-                      str(filter_id),
-                      '-',
-                      basename,
-                      '.jpg'))
+  #out_file = ''.join((output_filebase,
+                      #'img-',
+                      #str(filter_id),
+                      #'-',
+                      #basename,
+                      #'.jpg'))
+  out_file = output_filebase + basename + "." + str(filter_id) + ".maxstagram.jpg"
+  #out_file = output_filebase + "." + basename + "." + str(filter_id)
   if 0 != Run(('convert',
                fx_file,
                filename,
